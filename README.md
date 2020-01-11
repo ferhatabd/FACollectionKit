@@ -1,3 +1,3 @@
 # FACollectionKit
 
-A description of this package.
+Easily add horizontally scrolling collectionViews to a vertically scrolling main collectionView
