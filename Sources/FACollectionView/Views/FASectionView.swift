@@ -8,6 +8,12 @@
 
 import UIKit
 
+public typealias SectionId = Int
+public typealias CellIndex = Int
+public typealias TapHandler = (SectionId, CellIndex) -> ()
+
+public typealias ShouldSelectCell = (SectionId, CellIndex) -> Bool
+
 /// Container view that handles the collectionView for its own `FASection`
 ///
 /// With the data it receives from its section, this class implements a collectionView tied
@@ -33,6 +39,13 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     /// Ident of the cell
     internal var cellIdent: String { Cell.ident }
     
+    /// If the callback is set, it will be called once a cell is selected
+    internal var onDidSelect: TapHandler?
+    
+    /// If the callback is set, it will be called to check whether
+    /// the cell should be selected
+    internal var onShouldSelect: ShouldSelectCell?
+    
 
     // MARK: - Public properties
     
@@ -57,6 +70,19 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Methods
     //
+    @discardableResult
+    public func onDidSelect(_ callback: @escaping TapHandler) -> FASectionView<Cell> {
+        self.onDidSelect = callback
+        return self
+    }
+    
+    @discardableResult
+    public func onShouldSelect(_ callback: @escaping ShouldSelectCell) -> FASectionView<Cell> {
+        self.onShouldSelect = callback
+        return self
+    }
+    
+    
     
     // MARK: - UICollectionViewDataSource implementation
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -89,7 +115,14 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         self.section.config.itemSpacing
     }
     
+    public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        guard let shouldSelect = self.onShouldSelect else { return true }
+        return shouldSelect(self.section.ident, indexPath.row)
+    }
     
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        onDidSelect?(self.section.ident, indexPath.row)
+    }
     
     // MARK: - Private methods
     /// Internal UI setup
