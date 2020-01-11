@@ -8,6 +8,14 @@
 
 import UIKit
 
+public protocol AnySection {
+    /// Section ident
+    var ident: Int { get }
+    
+    /// Section confriguration 
+    var config: FASectionConfig { get set }
+}
+
 
 /// Main rules that define a `Section`
 internal protocol SectionConfig: AnyObject {
@@ -17,17 +25,12 @@ internal protocol SectionConfig: AnyObject {
     /// Ideally it would be an array of the `CellData` that's defined within the `CellConfig` protocol
     associatedtype SectionData
     
-    /// Section id definition
-    associatedtype SectionIdent: Hashable
-    
     /// Cell type config
     associatedtype CellType: CellConfig
     
     /// Section data
     var data: [SectionData]! { get set }
     
-    /// Section ident
-    var ident: SectionIdent { get }
   
 }
 
