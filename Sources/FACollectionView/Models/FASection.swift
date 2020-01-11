@@ -12,7 +12,9 @@ import UIKit
 public struct FASectionConfig {
     
     /// Section title
-    public var title: String = ""
+    public var title: String = "" {
+        didSet { needsHeader = !title.isEmpty }
+    }
     
     /// Preferred cell size
     public var preferredCellSize: CGSize = .zero
@@ -28,6 +30,9 @@ public struct FASectionConfig {
     
     /// Item spacing within the same row 
     public var itemSpacing: CGFloat = 20
+    
+    /// Flag to check if there is a need for a CollectionViewHeader
+    internal var needsHeader: Bool = false
     
     public init() {}
     
@@ -69,4 +74,6 @@ open class FASection<CellType>: NSObject, SectionConfig where CellType: CellConf
         self.config = config
     }
     
+    /// Returns the current config
+    public func getConfig() -> FASectionConfig { config }
 }
