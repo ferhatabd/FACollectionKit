@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// Main rules for `UICollectionViewCell` to be `FACollectionView` configurable
+/// Main rules for `UICollectionViewCell` to be `FACollectionKit` configurable
 public protocol CellConfig where Self: UICollectionViewCell {
     
     /// Contained data type

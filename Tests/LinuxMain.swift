@@ -1,7 +1,7 @@
 import XCTest
 
-import FACollectionViewTests
+import FACollectionKitTests
 
 var tests = [XCTestCaseEntry]()
-tests += FACollectionViewTests.allTests()
+tests += FACollectionKitTests.allTests()
 XCTMain(tests)
