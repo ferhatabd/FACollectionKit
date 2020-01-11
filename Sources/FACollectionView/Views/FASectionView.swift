@@ -68,12 +68,27 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         
         cell.cellData = self.section.data[indexPath.row]
         
+        // check the cornerRadius property
+        cell.clipsToBounds = section.config.cellCornerRadius > 0
+        cell.layer.cornerRadius = section.config.cellCornerRadius
+        cell.contentView.clipsToBounds = cell.clipsToBounds
+        cell.contentView.layer.cornerRadius = cell.layer.cornerRadius
+        
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        .init(width: 100, height: 200)
+        section.config.preferredCellSize
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        self.section.config.itemSpacing
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        self.section.config.itemSpacing
+    }
+    
     
     
     // MARK: - Private methods
@@ -81,7 +96,15 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     private func _setupUI() {
         
         // making use of the `CollectionViewBuilder` to setup the collectionView
-        setupCollectionView()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            self.setupCollectionView()
+            
+            self.collectionViewLayout.minimumInteritemSpacing = self.section.config.itemSpacing
+            self.collectionViewLayout.sectionInset = .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: 0)
+        }
+        
     }
     
     // MARK: - Public methods

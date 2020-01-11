@@ -16,7 +16,7 @@ internal protocol CollectionViewBuilder where Self: UIView & UICollectionViewDel
     
     
     // MARK: - Private properties
-
+    
     
     // MARK: - Public properties
     
@@ -54,38 +54,32 @@ internal protocol CollectionViewBuilder where Self: UIView & UICollectionViewDel
 internal extension CollectionViewBuilder {
     /// Default implementation of the `setupCollectionView()`
     func setupCollectionView() {
+        // create the layout
+        self.collectionViewLayout = UICollectionViewFlowLayout()
+        self.collectionViewLayout.scrollDirection = .horizontal
         
-        // Dispatch to the Main queue
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            // create the layout
-            self.collectionViewLayout = UICollectionViewFlowLayout()
-            self.collectionViewLayout.scrollDirection = .horizontal
-            
-            //
-            // create the collectionView
-            //
-            self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
-            self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-            self.collectionView.backgroundColor = .clear
-            self.collectionView.delegate = self
-            self.collectionView.dataSource = self
-            
-            // register the cell
-            self.collectionView.register(self.cellType, forCellWithReuseIdentifier: self.cellIdent)
-          
-            
-            // add the collectionView & constraints
-            self.insertSubview(self.collectionView, at: 0)
-            
-            self.collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-            self.collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-            self.collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-            self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-            
-        } // end of the dispatch
+        //
+        // create the collectionView
+        //
+        self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.collectionViewLayout)
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+        self.collectionView.backgroundColor = .clear
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.alwaysBounceHorizontal = self.collectionViewLayout.scrollDirection == .horizontal
+        self.collectionView.alwaysBounceVertical = self.collectionViewLayout.scrollDirection == .vertical
         
+        // register the cell
+        self.collectionView.register(self.cellType, forCellWithReuseIdentifier: self.cellIdent)
+        
+        
+        // add the collectionView & constraints
+        self.insertSubview(self.collectionView, at: 0)
+        
+        self.collectionView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        self.collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        self.collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        self.collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
     }
 }
