@@ -144,3 +144,39 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     
 }
+
+
+#if canImport(SwiftUI)
+import SwiftUI
+#endif
+
+@available(iOS 13, *)
+public struct FASectionViewRepresentible<Cell>: UIViewRepresentable where Cell: CellConfig {
+    
+    public typealias UIViewType = FASectionView<Cell>
+    
+    public var section: FASection<Cell>
+    
+    public func makeCoordinator() -> FASectionViewCoordinator<Cell> {
+        FASectionViewCoordinator(section: section)
+    }
+    
+    public func makeUIView(context: UIViewRepresentableContext<FASectionViewRepresentible<Cell>>) -> FASectionView<Cell> {
+        FASectionView(withSection: section)
+    }
+    
+    public func updateUIView(_ uiView: FASectionView<Cell>, context: UIViewRepresentableContext<FASectionViewRepresentible<Cell>>) {
+        uiView.section = context.coordinator.section
+    }
+    
+}
+
+public class FASectionViewCoordinator<Cell>: NSObject where Cell: CellConfig {
+    
+    public var section: FASection<Cell>
+    
+    init(section: FASection<Cell>) {
+        self.section = section
+    }
+    
+}
