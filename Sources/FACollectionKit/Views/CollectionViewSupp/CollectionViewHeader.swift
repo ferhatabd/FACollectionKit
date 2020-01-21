@@ -92,3 +92,52 @@ open class CollectionViewHeader: UICollectionReusableView {
     
 }
 
+
+
+#if canImport(SwiftUI)
+import SwiftUI
+#endif
+
+@available(iOS 13, *)
+public struct CollectionViewHeaderRepresentable: UIViewRepresentable{
+    
+    public typealias UIViewType = CollectionViewHeader
+    
+    var sectionConfig: FASectionConfig
+    
+    public func makeCoordinator() -> CollectionViewHeaderCoordinator {
+        CollectionViewHeaderCoordinator(sectionConfig)
+    }
+    
+    public func makeUIView(context: UIViewRepresentableContext<CollectionViewHeaderRepresentable>) -> CollectionViewHeader {
+        CollectionViewHeader()
+    }
+    
+    public func updateUIView(_ uiView: CollectionViewHeader, context: UIViewRepresentableContext<CollectionViewHeaderRepresentable>) {
+        uiView.sectionConfig = context.coordinator.config
+    }
+}
+
+
+public class CollectionViewHeaderCoordinator: NSObject {
+    
+    var config: FASectionConfig
+    
+    init(_ config: FASectionConfig) {
+        self.config = config
+    }
+    
+}
+
+#if DEBUG
+@available(iOS 13, *)
+public struct CollectionViewHeader_Previews: PreviewProvider {
+   
+    public static var previews: some View {
+        CollectionViewHeaderRepresentable(sectionConfig: .init())
+    }
+    
+}
+#endif
+
+

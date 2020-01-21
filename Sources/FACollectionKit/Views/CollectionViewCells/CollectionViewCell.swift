@@ -67,3 +67,53 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
 }
 
+
+#if canImport(SwiftUI)
+import SwiftUI
+#endif
+
+@available(iOS 13, *)
+public struct CollectionViewCellRepresentable: UIViewRepresentable {
+    
+    public typealias UIViewType = CollectionViewCell
+    
+    // cellData
+    var cellData: UIView!
+    
+    public func makeCoordinator() -> CollectionViewCellCoordinator {
+        CollectionViewCellCoordinator(cellData)
+    }
+    
+    public func makeUIView(context: UIViewRepresentableContext<CollectionViewCellRepresentable>) -> CollectionViewCell {
+        CollectionViewCell()
+    }
+    public func updateUIView(_ uiView: CollectionViewCell, context: UIViewRepresentableContext<CollectionViewCellRepresentable>) {
+        uiView.cellData = context.coordinator.cellData
+    }
+    
+}
+
+
+public class CollectionViewCellCoordinator: NSObject{
+    
+    /// cell data
+    var cellData: UIView!
+    
+    init(_ data: UIView) {
+        self.cellData = data
+    }
+    
+}
+
+
+#if DEBUG
+@available(iOS 13, *)
+struct CollectionViewCell_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let view = UIView()
+        view.backgroundColor = .orange
+        return CollectionViewCellRepresentable(cellData: view)
+    }
+}
+#endif
