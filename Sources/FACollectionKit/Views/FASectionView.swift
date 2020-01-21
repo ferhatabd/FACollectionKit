@@ -70,18 +70,6 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Methods
     //
-    @discardableResult
-    public func onDidSelect(_ callback: @escaping TapHandler) -> FASectionView<Cell> {
-        self.onDidSelect = callback
-        return self
-    }
-    
-    @discardableResult
-    public func onShouldSelect(_ callback: @escaping ShouldSelectCell) -> FASectionView<Cell> {
-        self.onShouldSelect = callback
-        return self
-    }
-    
     
     
     // MARK: - UICollectionViewDataSource implementation
@@ -142,6 +130,18 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Public methods
     
+    
+    @discardableResult
+    public func onDidSelect(_ callback: @escaping TapHandler) -> FASectionView<Cell> {
+        self.onDidSelect = callback
+        return self
+    }
+    
+    @discardableResult
+    public func onShouldSelect(_ callback: @escaping ShouldSelectCell) -> FASectionView<Cell> {
+        self.onShouldSelect = callback
+        return self
+    }
     
 }
 
