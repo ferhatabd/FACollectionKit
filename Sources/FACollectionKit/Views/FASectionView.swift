@@ -11,7 +11,6 @@ import UIKit
 public typealias SectionId = Int
 public typealias CellIndex = Int
 public typealias TapHandler = (SectionId, CellIndex) -> ()
-
 public typealias ShouldSelectCell = (SectionId, CellIndex) -> Bool
 
 /// Container view that handles the collectionView for its own `FASection`
