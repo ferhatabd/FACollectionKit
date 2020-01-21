@@ -154,6 +154,7 @@ public struct FASectionViewRepresentible<Cell>: UIViewRepresentable where Cell: 
     
     public typealias UIViewType = FASectionView<Cell>
     
+    @State
     public var section: FASection<Cell>
     
     public func makeCoordinator() -> FASectionViewCoordinator<Cell> {
