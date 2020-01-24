@@ -121,6 +121,8 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
 
             self.setupCollectionView()
             
+            self.collectionView.showsVerticalScrollIndicator = false
+            self.collectionView.showsHorizontalScrollIndicator = false 
             self.collectionViewLayout.minimumInteritemSpacing = self.section.config.itemSpacing
             self.collectionViewLayout.sectionInset = .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: 0)
         }

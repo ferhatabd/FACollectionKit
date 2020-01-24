@@ -17,6 +17,8 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
     // MARK: - Private properties
     
+    /// Cell is setup with a view
+    private var isCellSet = false
     
     // MARK: - Public properties
     /// Section view to be added as a subview
@@ -30,6 +32,7 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
     /// Cell ident
     public static var ident: String { "faMainCollectionViewCell" }
+
     
     
     // MARK: - Initialization
@@ -44,8 +47,11 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     // MARK: - Private methods
     /// Internal UI Setup
     private func setUI(fromView from: UIView?, toView to: UIView) {
+        if isCellSet { return }
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            
             // remove the old view
             from?.removeFromSuperview()
             
@@ -58,6 +64,8 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
             to.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
             to.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
             
+            self.layoutIfNeeded()
+            self.isCellSet = true 
         }
     }
     
