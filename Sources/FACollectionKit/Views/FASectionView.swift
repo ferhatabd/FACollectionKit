@@ -63,7 +63,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     }
     
     public required init?(coder: NSCoder) {
-        fatalError("Not implemented")
+        preconditionFailure("Not implemented")
     }
     
     
