@@ -56,6 +56,11 @@ open class FASection<CellType>: NSObject, SectionConfig, AnySection where CellTy
     /// fired with this ident
     public var ident: Int
     
+    /// Might be used for special ordering
+    ///
+    /// Defaults to 0
+    public var orderedId: Int = 0
+    
     
     // MARK: - Initialization
     public init<T: CellConfig>(cellType: T.Type, withIdent id: Int) {

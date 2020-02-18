@@ -22,7 +22,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Properties
     //
-    
+    public var id: Int
     
     // MARK: - Private properties
     
@@ -58,6 +58,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     /// - Parameter section: `FASection<Cell>` that's contained by the view
     public required init(withSection section: FASection<Cell>) {
         self.section = section
+        self.id = section.ident
         super.init(frame: .zero)
         _setupUI()
     }
