@@ -7,6 +7,15 @@
 
 import UIKit
 
+
+public protocol CollectionViewHeaderDelegate: AnyObject {
+    /// Will be fired when the detail button of a header is tapped
+    /// - Parameters:
+    ///   - button: Button that's tapped
+    ///   - section: Section index the header belongs to
+    func didDetailButtonTapped(_ button: UIButton, section: Int) -> Void
+}
+
 /// Reusable headerView for CollectionViews
 ///
 /// It's designed to be used as a means to supply titles, but it's possible
@@ -27,6 +36,10 @@ open class CollectionViewHeader: UICollectionReusableView {
     @usableFromInline
     internal var padding: UIEdgeInsets = .zero
     
+    /// Button that will be used as the detail indicator if there is any
+    @usableFromInline
+    internal var btnDetail: UIButton!
+    
     
     // MARK: - Public properties
     
@@ -36,6 +49,9 @@ open class CollectionViewHeader: UICollectionReusableView {
     /// Current section config
     public var sectionConfig = FASectionConfig()
     
+    /// The delegate
+    public weak var delegate: CollectionViewHeaderDelegate?
+    
     
     // MARK: - Initialization
     //
@@ -44,6 +60,13 @@ open class CollectionViewHeader: UICollectionReusableView {
     //
     
     // MARK: - Private methods
+    
+    @objc
+    private func btnDetailAction(_ sender: UIButton) {
+        delegate?.didDetailButtonTapped(sender, section: sectionConfig.ident)
+    }
+    
+    // MARK: - Internal methods
     
     /// Initial setup for the UI components
     internal func _setupUI() {
@@ -62,7 +85,29 @@ open class CollectionViewHeader: UICollectionReusableView {
         lblTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left).isActive = true
         lblTitle.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
-    
+        
+        //
+        // check if there is a need for a detail indicator
+        //
+        if let title = sectionConfig.detailTitle { // a title is configured, create the detail button
+            btnDetail?.removeFromSuperview()
+            btnDetail = UIButton(type: .custom)
+            btnDetail.translatesAutoresizingMaskIntoConstraints = false
+            btnDetail.setTitle(title, for: .normal)
+            btnDetail.setTitleColor(sectionConfig.detailTitleColor, for: .normal)
+            btnDetail.setTitleColor(sectionConfig.detailTitleColor.withAlphaComponent(0.2), for: .highlighted)
+            btnDetail.setTitleColor(sectionConfig.detailTitleColor.withAlphaComponent(0.2), for: .selected)
+            btnDetail.titleLabel?.font = sectionConfig.detailTitleFont
+            //
+            addSubview(btnDetail)
+            //
+            btnDetail.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding.right).isActive = true
+            btnDetail.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
+            //
+            btnDetail.addTarget(self, action: #selector(btnDetailAction(_:)), for: .touchUpInside)
+        } else {
+            btnDetail?.removeFromSuperview()
+        }
     }
     
     /// Updates the UI with the current config

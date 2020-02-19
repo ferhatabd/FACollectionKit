@@ -23,6 +23,15 @@ public struct FASectionConfig {
     /// Title font
     public var titleFont: UIFont = .systemFont(ofSize: 18)
     
+    /// If there is  a title, a detail button with the matching title will be displayed
+    public var detailTitle: String? = nil
+    
+    /// Font for the detail button title
+    public var detailTitleFont: UIFont = .systemFont(ofSize: 14)
+    
+    /// Color for the detail button title
+    public var detailTitleColor: UIColor = .black
+    
     /// Cell radius
     public var cellCornerRadius: CGFloat = 0
     
@@ -31,6 +40,9 @@ public struct FASectionConfig {
     
     /// Flag to check if there is a need for a CollectionViewHeader
     public var needsHeader: Bool { !title.isEmpty }
+    
+    /// Section index -- must match with the corresponding section's ident
+    public var ident: Int = 0
     
     public init() {}
     
