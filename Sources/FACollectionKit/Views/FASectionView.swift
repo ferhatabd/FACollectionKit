@@ -22,7 +22,6 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Properties
     //
-    public var id: Int
     
     // MARK: - Private properties
     
@@ -45,20 +44,27 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     /// the cell should be selected
     internal var onShouldSelect: ShouldSelectCell?
     
+    internal var _scrollDirection: UICollectionView.ScrollDirection
+    
 
     // MARK: - Public properties
     
+    public var id: Int
+    
     /// Section for view
     public var section: FASection<Cell>
+    
+    var scrollDirection: UICollectionView.ScrollDirection { _scrollDirection }
     
     
     // MARK: - Initialization
     //
     /// Required initializer fot the view
     /// - Parameter section: `FASection<Cell>` that's contained by the view
-    public required init(withSection section: FASection<Cell>) {
+    public required init(withSection section: FASection<Cell>, direction: UICollectionView.ScrollDirection = .horizontal) {
         self.section = section
         self.id = section.ident
+        self._scrollDirection = direction
         super.init(frame: .zero)
         _setupUI()
     }
@@ -101,6 +107,10 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         self.section.config.itemSpacing
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: self.section.config.itemSpacing)
     }
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

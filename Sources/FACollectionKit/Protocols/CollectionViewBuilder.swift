@@ -30,7 +30,8 @@ internal protocol CollectionViewBuilder where Self: UIView & UICollectionViewDel
     
     var cellIdent: String { get }
     
-    
+    /// Scroll direction
+    var scrollDirection: UICollectionView.ScrollDirection { get }
     
     
     // MARK: - Methods
@@ -52,11 +53,14 @@ internal protocol CollectionViewBuilder where Self: UIView & UICollectionViewDel
 
 // MARK: - Default implementation
 internal extension CollectionViewBuilder {
+    
+    var scrollDirection: UICollectionView.ScrollDirection { .horizontal }
+    
     /// Default implementation of the `setupCollectionView()`
     func setupCollectionView() {
         // create the layout
         self.collectionViewLayout = UICollectionViewFlowLayout()
-        self.collectionViewLayout.scrollDirection = .horizontal
+        self.collectionViewLayout.scrollDirection = scrollDirection
         
         //
         // create the collectionView
