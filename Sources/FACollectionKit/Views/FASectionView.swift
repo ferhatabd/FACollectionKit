@@ -10,8 +10,12 @@ import UIKit
 
 public typealias SectionId = Int
 public typealias CellIndex = Int
+public typealias ContentSize = CGSize
+public typealias ContentView = UICollectionView
 public typealias TapHandler = (SectionId, CellIndex) -> ()
 public typealias ShouldSelectCell = (SectionId, CellIndex) -> Bool
+public typealias ContentSizeChange = (ContentSize, SectionId) -> Void
+public typealias ContentOffsetChange = (ContentView, SectionId) -> Void
 
 /// Container view that handles the collectionView for its own `FASection`
 ///
@@ -44,7 +48,16 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     /// the cell should be selected
     internal var onShouldSelect: ShouldSelectCell?
     
+    /// Callback to be called whenever the contentSize changes
+    internal var onSizeChange: ContentSizeChange?
+    
+    /// Callback to be called when content offset changes
+    internal var onOffsetChange: ContentOffsetChange?
+    
     internal var _scrollDirection: UICollectionView.ScrollDirection
+    
+    /// The implemented collectionView's scrolling is enabled or not
+    internal var isScrollEnabled: Bool
     
 
     // MARK: - Public properties
@@ -56,14 +69,42 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     var scrollDirection: UICollectionView.ScrollDirection { _scrollDirection }
     
+    /// Collection view's top anchor constraint
+    var topConstraint: NSLayoutConstraint!
+    
+    /// Collection view's leading anchor constraint
+    var leadingConstraint: NSLayoutConstraint!
+    
+    /// Collection view's trailing anchor constraint
+    var trailingConstraint: NSLayoutConstraint!
+    
+    /// Collection view's bottom anchor constraint
+    var bottomConstraint: NSLayoutConstraint!
+    
+    /// Collectionview height constraint
+    ///
+    /// - warning: Might be nil depending on the current configuration
+    var heightConstraint: NSLayoutConstraint?
+    
+    /// Collectionview width constraint
+    ///
+    /// - warning: Might be nil depending on the current configuration
+    var widthConstraint: NSLayoutConstraint?
+    
+    public var contentSize: CGSize {
+        collectionView?.contentSize ?? .zero
+    }
     
     // MARK: - Initialization
     //
     /// Required initializer fot the view
     /// - Parameter section: `FASection<Cell>` that's contained by the view
-    public required init(withSection section: FASection<Cell>, direction: UICollectionView.ScrollDirection = .horizontal) {
+    public required init(withSection section: FASection<Cell>,
+                         direction: UICollectionView.ScrollDirection = .horizontal,
+                         isScrollable: Bool = true) {
         self.section = section
         self.id = section.ident
+        self.isScrollEnabled = isScrollable
         self._scrollDirection = direction
         super.init(frame: .zero)
         _setupUI()
@@ -73,6 +114,26 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         preconditionFailure("Not implemented")
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        if !isScrollEnabled {
+            switch scrollDirection {
+            case .vertical:
+                bottomConstraint.isActive = false
+                heightConstraint?.isActive = false
+                heightConstraint = collectionView.heightAnchor.constraint(equalToConstant: collectionView.contentSize.height)
+                heightConstraint?.isActive = true
+            case .horizontal:
+                trailingConstraint.isActive = false
+                widthConstraint?.isActive = false
+                widthConstraint = collectionView.widthAnchor.constraint(equalToConstant: collectionView.contentSize.width)
+                widthConstraint?.isActive = true 
+            @unknown default:
+                break
+            }
+        }
+        onSizeChange?(collectionView.contentSize, id)
+    }
     
     // MARK: - Methods
     //
@@ -122,6 +183,13 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         onDidSelect?(self.section.ident, indexPath.row)
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard scrollView === collectionView else { return }
+        DispatchQueue.global(qos: .userInteractive).sync {
+            self.onOffsetChange?(self.collectionView, self.id)
+        }
+    }
+    
     // MARK: - Private methods
     /// Internal UI setup
     private func _setupUI() {
@@ -133,7 +201,8 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
             self.setupCollectionView()
             
             self.collectionView.showsVerticalScrollIndicator = false
-            self.collectionView.showsHorizontalScrollIndicator = false 
+            self.collectionView.showsHorizontalScrollIndicator = false
+            self.collectionView.isScrollEnabled = self.isScrollEnabled
             self.collectionViewLayout.minimumInteritemSpacing = self.section.config.itemSpacing
             self.collectionViewLayout.sectionInset = .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: 0)
         }
@@ -155,6 +224,17 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         return self
     }
     
+    @discardableResult
+    public func onSizeChange(_ callback: @escaping ContentSizeChange) -> FASectionView<Cell> {
+        self.onSizeChange = callback
+        return self 
+    }
+    
+    @discardableResult
+    public func onOffsetChange(_ callback: @escaping ContentOffsetChange) -> FASectionView<Cell> {
+        self.onOffsetChange = callback
+        return self 
+    }
 }
 
 
