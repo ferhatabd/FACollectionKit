@@ -70,18 +70,17 @@ open class CollectionViewHeader: UICollectionReusableView {
     
     /// Initial setup for the UI components
     internal func _setupUI() {
-        if lblTitle == nil {
-            lblTitle = UILabel()
-            lblTitle.translatesAutoresizingMaskIntoConstraints = false
-            lblTitle.backgroundColor = .clear
-            lblTitle.numberOfLines = 1
-            lblTitle.font = sectionConfig.titleFont
-            lblTitle.textColor = sectionConfig.titleColor
-            lblTitle.textAlignment = .left
-            
-            addSubview(lblTitle)
-        }
+        lblTitle?.removeFromSuperview()
         
+        lblTitle = UILabel()
+        lblTitle.translatesAutoresizingMaskIntoConstraints = false
+        lblTitle.backgroundColor = .clear
+        lblTitle.numberOfLines = 1
+        lblTitle.font = sectionConfig.titleFont
+        lblTitle.textColor = sectionConfig.titleColor
+        lblTitle.textAlignment = .left
+        
+        addSubview(lblTitle)
         lblTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left).isActive = true
         lblTitle.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
