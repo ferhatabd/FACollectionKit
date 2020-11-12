@@ -18,7 +18,7 @@ public protocol CellConfig where Self: UICollectionViewCell {
     var cellData: CellData! { get set }
     
     /// Cell ident
-    class var ident: String { get }
+    static var ident: String { get }
     
     
 }
