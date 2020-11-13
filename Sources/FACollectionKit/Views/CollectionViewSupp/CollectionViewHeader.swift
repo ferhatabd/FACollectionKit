@@ -75,7 +75,7 @@ open class CollectionViewHeader: UICollectionReusableView {
         lblTitle = UILabel()
         lblTitle.translatesAutoresizingMaskIntoConstraints = false
         lblTitle.backgroundColor = .clear
-        lblTitle.numberOfLines = 1
+        lblTitle.numberOfLines = 2
         lblTitle.font = sectionConfig.titleFont
         lblTitle.textColor = sectionConfig.titleColor
         lblTitle.textAlignment = .left
@@ -88,6 +88,7 @@ open class CollectionViewHeader: UICollectionReusableView {
             lblTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom).isActive = true
         }
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
+        lblTitle.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -sectionConfig.itemSpacing).isActive = true
         
         //
         // check if there is a need for a detail indicator
