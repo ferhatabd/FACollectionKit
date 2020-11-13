@@ -38,6 +38,9 @@ public struct FASectionConfig {
     /// Item spacing within the same row 
     public var itemSpacing: CGFloat = 20
     
+    /// Additional insets for the sections 
+    public var additionalInsets: UIEdgeInsets = .zero
+    
     /// Flag to check if there is a need for a CollectionViewHeader
     public var needsHeader: Bool { !title.isEmpty }
     

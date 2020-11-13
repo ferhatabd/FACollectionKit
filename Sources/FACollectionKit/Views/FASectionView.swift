@@ -171,7 +171,20 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: self.section.config.itemSpacing)
+        let insets: UIEdgeInsets = {
+            if scrollDirection == .horizontal {
+                return UIEdgeInsets(top: 0,
+                                    left: self.section.config.itemSpacing + self.section.config.additionalInsets.left,
+                                    bottom: 0,
+                                    right: 0)
+            } else {
+                return UIEdgeInsets(top: self.section.config.itemSpacing,
+                                    left: 0,
+                                    bottom: 0,
+                                    right: 0)
+            }
+        }()
+        return insets
     }
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
