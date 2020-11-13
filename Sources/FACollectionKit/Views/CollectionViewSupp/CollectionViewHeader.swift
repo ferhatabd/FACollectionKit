@@ -85,7 +85,7 @@ open class CollectionViewHeader: UICollectionReusableView {
         if sectionConfig.headerAlignment == .top {
             lblTitle.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
         } else {
-            lblTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom)
+            lblTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom).isActive = true
         }
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
         
