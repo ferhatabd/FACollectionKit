@@ -82,7 +82,11 @@ open class CollectionViewHeader: UICollectionReusableView {
         
         addSubview(lblTitle)
         lblTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: padding.left).isActive = true
-        lblTitle.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
+        if sectionConfig.headerAlignment == .top {
+            lblTitle.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
+        } else {
+            lblTitle.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -padding.bottom)
+        }
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
         
         //

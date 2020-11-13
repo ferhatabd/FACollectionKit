@@ -41,6 +41,9 @@ public struct FASectionConfig {
     /// Flag to check if there is a need for a CollectionViewHeader
     public var needsHeader: Bool { !title.isEmpty }
     
+    /// Header alignment
+    public var headerAlignment: UIControl.ContentVerticalAlignment = .top
+    
     /// Section index -- must match with the corresponding section's ident
     public var ident: Int = 0
     
