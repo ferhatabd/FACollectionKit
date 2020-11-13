@@ -176,11 +176,11 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
                 return UIEdgeInsets(top: 0,
                                     left: self.section.config.itemSpacing + self.section.config.additionalInsets.left,
                                     bottom: 0,
-                                    right: 0)
+                                    right: self.section.config.itemSpacing + self.section.config.additionalInsets.right)
             } else {
                 return UIEdgeInsets(top: self.section.config.itemSpacing,
                                     left: 0,
-                                    bottom: 0,
+                                    bottom: self.section.config.itemSpacing + self.section.config.additionalInsets.bottom,
                                     right: 0)
             }
         }()
