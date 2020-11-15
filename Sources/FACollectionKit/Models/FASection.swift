@@ -47,6 +47,12 @@ public struct FASectionConfig {
     /// Header alignment
     public var headerAlignment: UIControl.ContentVerticalAlignment = .top
     
+    /// Gradient locations fot the cells within this section
+    public var gradientLocations: [NSNumber]?
+    
+    /// Gradient colors for the cells within this section
+    public var gradientColors: [UIColor]? 
+    
     /// Section index -- must match with the corresponding section's ident
     public var ident: Int = 0
     

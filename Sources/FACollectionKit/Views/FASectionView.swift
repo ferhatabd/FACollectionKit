@@ -154,6 +154,8 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         cell.layer.cornerRadius = section.config.cellCornerRadius
         cell.contentView.clipsToBounds = cell.clipsToBounds
         cell.contentView.layer.cornerRadius = cell.layer.cornerRadius
+        cell.gradientColors = section.config.gradientColors
+        cell.gradientLocations = section.config.gradientLocations
         
         return cell
     }

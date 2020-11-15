@@ -17,6 +17,12 @@ public protocol CellConfig where Self: UICollectionViewCell {
     /// Cell data
     var cellData: CellData! { get set }
     
+    /// Gradient locations
+    var gradientLocations: [NSNumber]? { get set }
+    
+    /// Gradient colors
+    var gradientColors: [UIColor]? { get set }
+    
     /// Cell ident
     static var ident: String { get }
     

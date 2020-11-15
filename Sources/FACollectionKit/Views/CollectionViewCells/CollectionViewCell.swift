@@ -10,7 +10,6 @@ import UIKit
 
 public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
-    
     // MARK: - Properties
     //
     
@@ -29,6 +28,11 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
             }
         }
     }
+    
+    public var gradientLocations: [NSNumber]?
+    
+    public var gradientColors: [UIColor]?
+    
     
     /// Cell ident
     public static var ident: String { "faMainCollectionViewCell" }
