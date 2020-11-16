@@ -12,7 +12,7 @@ public typealias SectionId = Int
 public typealias CellIndex = Int
 public typealias ContentSize = CGSize
 public typealias ContentView = UICollectionView
-public typealias TapHandler = (SectionId, CellIndex) -> ()
+public typealias TapHandler<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData?) -> ()
 public typealias ShouldSelectCell = (SectionId, CellIndex) -> Bool
 public typealias ContentSizeChange = (ContentSize, SectionId) -> Void
 public typealias ContentOffsetChange = (ContentView, SectionId) -> Void
@@ -42,7 +42,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     internal var cellIdent: String { Cell.ident }
     
     /// If the callback is set, it will be called once a cell is selected
-    internal var onDidSelect: TapHandler?
+    internal var onDidSelect: TapHandler<Cell>?
     
     /// If the callback is set, it will be called to check whether
     /// the cell should be selected
@@ -195,7 +195,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        onDidSelect?(self.section.ident, indexPath.row)
+        onDidSelect?(self.section.ident, indexPath.row, section.data[indexPath.row])
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -228,7 +228,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     
     @discardableResult
-    public func onDidSelect(_ callback: @escaping TapHandler) -> FASectionView<Cell> {
+    public func onDidSelect(_ callback: @escaping TapHandler<Cell>) -> FASectionView<Cell> {
         self.onDidSelect = callback
         return self
     }
