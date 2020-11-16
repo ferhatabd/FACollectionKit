@@ -12,8 +12,8 @@ public typealias SectionId = Int
 public typealias CellIndex = Int
 public typealias ContentSize = CGSize
 public typealias ContentView = UICollectionView
-public typealias TapHandler<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData?) -> ()
-public typealias ShouldSelectCell = (SectionId, CellIndex) -> Bool
+public typealias TapHandler<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData) -> ()
+public typealias ShouldSelectCell<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData) -> Bool
 public typealias ContentSizeChange = (ContentSize, SectionId) -> Void
 public typealias ContentOffsetChange = (ContentView, SectionId) -> Void
 
@@ -46,7 +46,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     /// If the callback is set, it will be called to check whether
     /// the cell should be selected
-    internal var onShouldSelect: ShouldSelectCell?
+    internal var onShouldSelect: ShouldSelectCell<Cell>?
     
     /// Callback to be called whenever the contentSize changes
     internal var onSizeChange: ContentSizeChange?
@@ -191,7 +191,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         guard let shouldSelect = self.onShouldSelect else { return true }
-        return shouldSelect(self.section.ident, indexPath.row)
+        return shouldSelect(self.section.ident, indexPath.row, section.data[indexPath.row])
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -234,7 +234,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     }
     
     @discardableResult
-    public func onShouldSelect(_ callback: @escaping ShouldSelectCell) -> FASectionView<Cell> {
+    public func onShouldSelect(_ callback: @escaping ShouldSelectCell<Cell>) -> FASectionView<Cell> {
         self.onShouldSelect = callback
         return self
     }
