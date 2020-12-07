@@ -176,13 +176,13 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         let insets: UIEdgeInsets = {
             if scrollDirection == .horizontal {
                 return UIEdgeInsets(top: 0,
-                                    left: self.section.config.interItemSpacing + self.section.config.additionalInsets.left,
+                                    left: self.section.config.lineSpacing + self.section.config.additionalInsets.left,
                                     bottom: 0,
-                                    right: self.section.config.interItemSpacing + self.section.config.additionalInsets.right)
+                                    right: self.section.config.lineSpacing + self.section.config.additionalInsets.right)
             } else {
-                return UIEdgeInsets(top: self.section.config.lineSpacing,
+                return UIEdgeInsets(top: self.section.config.interItemSpacing,
                                     left: 0,
-                                    bottom: self.section.config.lineSpacing + self.section.config.additionalInsets.bottom,
+                                    bottom: self.section.config.interItemSpacing + self.section.config.additionalInsets.bottom,
                                     right: 0)
             }
         }()
