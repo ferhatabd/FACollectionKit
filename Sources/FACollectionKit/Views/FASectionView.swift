@@ -165,24 +165,24 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        self.section.config.itemSpacing
+         self.section.config.interItemSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        self.section.config.itemSpacing
+        self.section.config.lineSpacing
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let insets: UIEdgeInsets = {
             if scrollDirection == .horizontal {
                 return UIEdgeInsets(top: 0,
-                                    left: self.section.config.itemSpacing + self.section.config.additionalInsets.left,
+                                    left: self.section.config.interItemSpacing + self.section.config.additionalInsets.left,
                                     bottom: 0,
-                                    right: self.section.config.itemSpacing + self.section.config.additionalInsets.right)
+                                    right: self.section.config.interItemSpacing + self.section.config.additionalInsets.right)
             } else {
-                return UIEdgeInsets(top: self.section.config.itemSpacing,
+                return UIEdgeInsets(top: self.section.config.lineSpacing,
                                     left: 0,
-                                    bottom: self.section.config.itemSpacing + self.section.config.additionalInsets.bottom,
+                                    bottom: self.section.config.lineSpacing + self.section.config.additionalInsets.bottom,
                                     right: 0)
             }
         }()
@@ -218,8 +218,6 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
             self.collectionView.showsVerticalScrollIndicator = false
             self.collectionView.showsHorizontalScrollIndicator = false
             self.collectionView.isScrollEnabled = self.isScrollEnabled
-            self.collectionViewLayout.minimumInteritemSpacing = self.section.config.itemSpacing
-            self.collectionViewLayout.sectionInset = .init(top: 0, left: self.section.config.itemSpacing, bottom: 0, right: 0)
         }
         
     }

@@ -35,8 +35,11 @@ public struct FASectionConfig {
     /// Cell radius
     public var cellCornerRadius: CGFloat = 0
     
-    /// Item spacing within the same row 
-    public var itemSpacing: CGFloat = 20
+    /// Itnteritem spacing
+    public var interItemSpacing: CGFloat = 20
+    
+    /// Line spacing
+    public var lineSpacing: CGFloat = 20
     
     /// Additional insets for the sections 
     public var additionalInsets: UIEdgeInsets = .zero

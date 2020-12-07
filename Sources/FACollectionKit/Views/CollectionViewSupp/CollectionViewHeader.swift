@@ -96,7 +96,7 @@ open class CollectionViewHeader: UICollectionReusableView {
         }
         
         lblTitle.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, constant: -(padding.left + padding.right)).isActive = true
-        lblTitle.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -sectionConfig.itemSpacing).isActive = true
+        lblTitle.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -sectionConfig.interItemSpacing).isActive = true
         
         //
         // check if there is a need for a detail indicator
