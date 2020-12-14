@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "FACollectionKit"
-  spec.version      = "1.0.14"
+  spec.version      = "1.0.15"
   spec.summary      = "Easy configuration for bidirectionally scrolling UICollectionView's"
 
   spec.description  = "Easy configuration for bidirectionally scrolling UICollectionView's."
