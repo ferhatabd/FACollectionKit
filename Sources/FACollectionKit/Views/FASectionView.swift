@@ -13,6 +13,7 @@ public typealias CellIndex = Int
 public typealias ContentSize = CGSize
 public typealias ContentView = UICollectionView
 public typealias TapHandler<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData) -> ()
+public typealias CellDidDequeue<Cell: CellConfig> = (Cell) -> ()
 public typealias ShouldSelectCell<Cell: CellConfig> = (SectionId, CellIndex, Cell.CellData) -> Bool
 public typealias ContentSizeChange = (ContentSize, SectionId) -> Void
 public typealias ContentOffsetChange = (ContentView, SectionId) -> Void
@@ -50,6 +51,9 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     /// Callback to be called whenever the contentSize changes
     internal var onSizeChange: ContentSizeChange?
+    
+    /// Callback to be called right after a cell is dequeued
+    internal var onDidDequeue: CellDidDequeue<Cell>?
     
     /// Callback to be called when content offset changes
     internal var onOffsetChange: ContentOffsetChange?
@@ -157,6 +161,8 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         cell.gradientColors = section.config.gradientColors
         cell.gradientLocations = section.config.gradientLocations
         
+        onDidDequeue?(cell)
+        
         return cell
     }
     
@@ -247,6 +253,12 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     public func onOffsetChange(_ callback: @escaping ContentOffsetChange) -> FASectionView<Cell> {
         self.onOffsetChange = callback
         return self 
+    }
+    
+    @discardableResult
+    public func onDequeue(_ callback: @escaping CellDidDequeue<Cell>) -> FASectionView<Cell> {
+        self.onDidDequeue = callback
+        return self
     }
 }
 
