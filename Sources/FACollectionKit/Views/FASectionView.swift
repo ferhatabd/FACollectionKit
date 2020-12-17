@@ -180,16 +180,20 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let insets: UIEdgeInsets = {
+            let insetTop = self.section.config.additionalInsets.top
+            let insetLeft = self.section.config.additionalInsets.left
+            let insetRight = self.section.config.additionalInsets.right
+            let insetBottom = self.section.config.additionalInsets.bottom
             if scrollDirection == .horizontal {
-                return UIEdgeInsets(top: 0,
-                                    left: self.section.config.lineSpacing + self.section.config.additionalInsets.left,
-                                    bottom: 0,
-                                    right: self.section.config.lineSpacing + self.section.config.additionalInsets.right)
+                return UIEdgeInsets(top: insetTop,
+                                    left: self.section.config.lineSpacing + insetLeft,
+                                    bottom: insetBottom,
+                                    right: self.section.config.lineSpacing + insetRight)
             } else {
-                return UIEdgeInsets(top: self.section.config.interItemSpacing,
-                                    left: 0,
-                                    bottom: self.section.config.interItemSpacing + self.section.config.additionalInsets.bottom,
-                                    right: 0)
+                return UIEdgeInsets(top: self.section.config.interItemSpacing + insetTop,
+                                    left: insetLeft,
+                                    bottom: self.section.config.interItemSpacing + insetBottom,
+                                    right: insetRight)
             }
         }()
         return insets
