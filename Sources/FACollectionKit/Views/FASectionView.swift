@@ -112,7 +112,6 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         self._scrollDirection = direction
         super.init(frame: .zero)
         _setupUI()
-        collectionView.reloadData()
     }
     
     public required init?(coder: NSCoder) {
@@ -142,6 +141,10 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     
     // MARK: - Methods
     //
+    
+    public func refresh() {
+        collectionView?.reloadData()
+    }
     
     
     // MARK: - UICollectionViewDataSource implementation
