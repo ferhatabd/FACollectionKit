@@ -51,7 +51,7 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     // MARK: - Private methods
     /// Internal UI Setup
     private func setUI(fromView from: UIView?, toView to: UIView) {
-        if isCellSet { return }
+        //if isCellSet { return }
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
