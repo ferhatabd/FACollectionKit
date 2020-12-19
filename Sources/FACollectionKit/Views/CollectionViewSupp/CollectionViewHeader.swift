@@ -114,7 +114,7 @@ open class CollectionViewHeader: UICollectionReusableView {
             addSubview(btnDetail)
             //
             btnDetail.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding.right).isActive = true
-            btnDetail.topAnchor.constraint(equalTo: topAnchor, constant: padding.top).isActive = true
+            btnDetail.centerYAnchor.constraint(equalTo: lblTitle.centerYAnchor).isActive = true
             //
             btnDetail.addTarget(self, action: #selector(btnDetailAction(_:)), for: .touchUpInside)
         } else {
