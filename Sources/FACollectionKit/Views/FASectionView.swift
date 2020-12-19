@@ -112,7 +112,7 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         self._scrollDirection = direction
         super.init(frame: .zero)
         _setupUI()
-        collectionView.reloadData()
+   //     collectionView.reloadData()
     }
     
     public required init?(coder: NSCoder) {
@@ -219,18 +219,10 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     // MARK: - Private methods
     /// Internal UI setup
     private func _setupUI() {
-        
-        // making use of the `CollectionViewBuilder` to setup the collectionView
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-
-            self.setupCollectionView()
-            
-            self.collectionView.showsVerticalScrollIndicator = false
-            self.collectionView.showsHorizontalScrollIndicator = false
-            self.collectionView.isScrollEnabled = self.isScrollEnabled
-        }
-        
+        self.setupCollectionView()
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.showsHorizontalScrollIndicator = false
+        self.collectionView.isScrollEnabled = self.isScrollEnabled
     }
     
     // MARK: - Public methods
