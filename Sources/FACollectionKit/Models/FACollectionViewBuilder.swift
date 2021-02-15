@@ -6,7 +6,7 @@
 //  Copyright © 2020 Ferhat Abdullahoglu. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public struct FACollectionViewBuilder {
     

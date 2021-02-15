@@ -23,8 +23,10 @@ public protocol CellConfig where Self: UICollectionViewCell {
     /// Gradient colors
     var gradientColors: [UIColor]? { get set }
     
+    /// Long press tap handler
+    var longPressTapHandler: ((UICollectionViewCell)->())? { get set }
+    
     /// Cell ident
     static var ident: String { get }
-    
     
 }

@@ -55,6 +55,9 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     /// Callback to be called right after a cell is dequeued
     internal var onDidDequeue: CellDidDequeue<Cell>?
     
+    /// Callback that's called when a longpress tap occurs on `Cell`
+    internal var onLongPressDidSelect: TapHandler<Cell>?
+    
     /// Callback to be called when content offset changes
     internal var onOffsetChange: ContentOffsetChange?
     
@@ -164,6 +167,11 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
         cell.contentView.layer.cornerRadius = cell.layer.cornerRadius
         cell.gradientColors = section.config.gradientColors
         cell.gradientLocations = section.config.gradientLocations
+        cell.longPressTapHandler = { [weak self] (cell) in
+            guard let self = self else { return }
+            guard let indexPath = collectionView.indexPath(for: cell) else { return }
+            self.onLongPressDidSelect?(self.section.ident, indexPath.row, self.section.data[indexPath.row])
+        }
         
         onDidDequeue?(cell)
         
@@ -258,6 +266,15 @@ public class FASectionView<Cell> : UIView, UICollectionViewDelegate, UICollectio
     @discardableResult
     public func onDequeue(_ callback: @escaping CellDidDequeue<Cell>) -> FASectionView<Cell> {
         self.onDidDequeue = callback
+        return self
+    }
+    
+    /// In case the long press is released while still within the cell
+    /// boundaries the `callback` will be called with the
+    /// cell that's tapped on as the input
+    @discardableResult
+    public func onLongGestureTap(_ callback: @escaping TapHandler<Cell>) -> FASectionView<Cell> {
+        self.onLongPressDidSelect = callback
         return self
     }
 }

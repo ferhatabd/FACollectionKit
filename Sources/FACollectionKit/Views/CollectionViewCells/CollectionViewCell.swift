@@ -10,6 +10,7 @@ import UIKit
 
 public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
+    
     // MARK: - Properties
     //
     
@@ -33,6 +34,7 @@ public class CollectionViewCell: UICollectionViewCell, CellConfig {
     
     public var gradientColors: [UIColor]?
     
+    public var longPressTapHandler: ((UICollectionViewCell) -> ())?
     
     /// Cell ident
     public static var ident: String { "faMainCollectionViewCell" }
